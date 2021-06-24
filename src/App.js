@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import CardItem from "./components/CardItem";
 import { pokemons } from "./mock/mockedData";
 
@@ -6,8 +6,21 @@ import "./styles.css";
 
 export default function App() {
   const [visiblePokemons, setVisiblePokemons] = useState(pokemons);
+  const inputSearchRef = useRef();
+  function OnChangeFilter(event) {
+    let searchValue = inputSearchRef.current.value;
 
-  function OnChange(event) {}
+    if (searchValue === "") {
+      setVisiblePokemons((prevPoke) => {
+        return [...pokemons];
+      });
+      return;
+    }
+
+    setVisiblePokemons((prevPoke) => {
+      return [...pokemons.filter((poke) => poke.name.includes(searchValue))];
+    });
+  }
 
   return (
     <div className="app">
@@ -15,7 +28,13 @@ export default function App() {
       {/**
        Insert here the input tag
       **/}
-      <input type="text" placeholder="" name="input-search" />
+      <input
+        ref={inputSearchRef}
+        type="text"
+        placeholder=""
+        name="input-search"
+        onChange={OnChangeFilter}
+      />
 
       <div className="cards">
         {/**
