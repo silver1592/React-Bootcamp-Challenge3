@@ -9,6 +9,7 @@ export default function App() {
   const inputSearchRef = useRef();
   function OnChangeFilter(event) {
     let searchValue = inputSearchRef.current.value;
+    searchValue = searchValue.trim().toLowerCase();
 
     if (searchValue === "") {
       setVisiblePokemons((prevPoke) => {
@@ -18,7 +19,11 @@ export default function App() {
     }
 
     setVisiblePokemons((prevPoke) => {
-      return [...pokemons.filter((poke) => poke.name.includes(searchValue))];
+      return [
+        ...pokemons.filter((poke) =>
+          poke.name.toLowerCase().includes(searchValue)
+        )
+      ];
     });
   }
 
